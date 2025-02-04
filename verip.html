@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Rewes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <style>
+        /* Estilos adicionales */
+        .info-card {
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .data-label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .data-value {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+   
+
+     <!-- Navbar & Hero Start -->
+     <div class="container-fluid header position-relative overflow-hidden p-0">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-light px-4 px-lg-5 py-3 py-lg-0">
+            <a href="index.html" class="navbar-brand p-0">
+                <h1 class="display-6 text-primary m-0"><i class="fas fa-network-wired me-3"></i>Rewes</h1>
+                <!-- <img src="img/logo.png" alt="Logo"> -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="index.html" class="nav-item nav-link active">Inicio</a>
+                    <a href="about.html" class="nav-item nav-link">Conceptos</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Recursos</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="feature.html" class="dropdown-item">Guias</a>
+                            <a href="feature.html" class="dropdown-item">Calculadora VLSM IPv4</a>
+                            <a href="verip.html" class="dropdown-item">Conocer mi Ip</a>
+                        </div>
+                    </div>
+                    <a href="service.html" class="nav-item nav-link">Nosotros</a>
+                </div>
+            </div>
+        </nav>
+
+    <div class="container-fluid overflow-hidden py-5" style="margin-top: 6rem;">
+        <div class="container py-5">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+                <h4 class="mb-1 text-primary">Análisis de Red</h4>
+                <h1 class="display-5 mb-4">Información de tu conexión</h1>
+                
+                <div class="card shadow wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="text-center">
+                            <button id="detectIPBtn" class="btn btn-primary btn-lg rounded-pill px-5 py-3">
+                                <i class="fas fa-satellite-dish me-2"></i>Analizar mi conexión
+                            </button>
+                        </div>
+
+                        <div id="loading" class="mt-4 text-center" style="display: none;">
+                            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
+                            <p class="mt-3 text-muted">Obteniendo datos de geolocalización...</p>
+                        </div>
+
+                        <div id="ipInfo" class="mt-4" style="display: none;">
+                            <!-- Sección Superior: Datos Principales -->
+                            <div class="row g-4 mb-4">
+                                <!-- Tarjeta de IP -->
+                                <div class="col-md-4">
+                                    <div class="info-card p-4 border rounded bg-light">
+                                        <h5 class="text-primary mb-3"><i class="fas fa-id-badge me-2"></i>Dirección IP</h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="ms-3">
+                                                <div class="data-label">IP Pública</div>
+                                                <div class="data-value fs-4" id="ipAddress">-</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta de Ubicación -->
+                                <div class="col-md-4">
+                                    <div class="info-card p-4 border rounded bg-light">
+                                        <h5 class="text-primary mb-3"><i class="fas fa-map-marked-alt me-2"></i>Ubicación</h5>
+                                        <div class="data-label">País</div>
+                                        <div class="data-value" id="country">-</div>
+                                        <div class="data-label mt-2">Ciudad/Región</div>
+                                        <div class="data-value" id="cityRegion">-</div>
+                                    </div>
+                                </div>
+
+                                <!-- Tarjeta de Proveedor -->
+                                <div class="col-md-4">
+                                    <div class="info-card p-4 border rounded bg-light">
+                                        <h5 class="text-primary mb-3"><i class="fas fa-network-wired me-2"></i>Proveedor</h5>
+                                        <div class="data-label">ISP</div>
+                                        <div class="data-value text-truncate" id="isp">-</div>
+                                        <div class="data-label mt-2">Organización</div>
+                                        <div class="data-value text-truncate" id="org">-</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sección del Mapa -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="border rounded overflow-hidden">
+                                        <div id="map"></div>
+                                        <div class="p-3 bg-light">
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle me-1"></i>
+                                                Ubicación aproximada basada en tu IP pública (precisión: ~20-50 km)
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sección de Datos Técnicos -->
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <div class="info-card p-4 border rounded bg-light">
+                                        <h5 class="text-primary mb-3"><i class="fas fa-microchip me-2"></i>Datos Técnicos</h5>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="data-label">Zona Horaria</div>
+                                                <div class="data-value" id="timezone">-</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="data-label">Código Postal</div>
+                                                <div class="data-value" id="postal">-</div>
+                                            </div>
+                                            <div class="col-6 mt-3">
+                                                <div class="data-label">Latitud</div>
+                                                <div class="data-value" id="latitude">-</div>
+                                            </div>
+                                            <div class="col-6 mt-3">
+                                                <div class="data-label">Longitud</div>
+                                                <div class="data-value" id="longitude">-</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="info-card p-4 border rounded bg-light">
+                                        <h5 class="text-primary mb-3"><i class="fas fa-shield-alt me-2"></i>Seguridad</h5>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="data-label">Tipo de IP</div>
+                                                <div class="data-value" id="ipType">-</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="data-label">Conexión Segura</div>
+                                                <div class="data-value" id="security">-</div>
+                                            </div>
+                                            <div class="col-12 mt-3">
+                                                <div class="alert alert-warning mb-0">
+                                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                                    Tu dirección IP es visible públicamente
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info mt-4 wow fadeInUp" data-wow-delay="0.5s">
+                    <i class="fas fa-lock me-2"></i>No almacenamos ni compartimos tu información. Los datos se obtienen en tiempo real y no se guardan en nuestros servidores.
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Footer Start -->
+     <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="text-dark mb-4">Rewes Academy</h4>
+                        <a href="">Confia</a>
+                        <a href="">Nuestras Características</a>
+                        <a href="">Nuestro Portafolio</a>
+                        <a href="">Sobre Nosotros</a>
+                        <a href="">Nuestro Blog y Noticias</a>
+                        <a href="">Contáctanos</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="mb-4 text-dark">Enlaces Rápidos</h4>
+                        <a href="">Calculadora VLSM</a>
+                        <a href="">Guías de Redes</a>
+                        <a href="">Recursos Avanzados</a>
+                        <a href="">Foro de Discusión</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="mb-4 text-dark">Servicios</h4>
+                        <a href="">Todos los Servicios</a>
+                        <a href="">Consultoría de Redes</a>
+                        <a href="">Diseño de Infraestructura</a>
+                        <a href="">Seguridad de Redes</a>
+                        <a href="">Optimización de Rendimiento</a>
+                        <a href="">Soporte Técnico</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="mb-4 text-dark">Información de contacto</h4>
+                        <a href=""><i class="fa fa-map-marker-alt me-2"></i> Táchira, San Cristobal</a>
+                        <a href=""><i class="fas fa-envelope me-2"></i> <span class="__cf_email__" data-cfemail="3d79545c535c4d515c44584f7d5148535c4f54135e5250">Dianaplayer@lunari.com</span></a>
+                        <a href=""><i class="fas fa-phone me-2"></i> +58412-0672337</a>
+                        <a href="" class="mb-3"><i class="fas fa-print me-2"></i> +58414-0672337 </a>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-share fa-2x text-secondary me-2"></i>
+                            <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
+                            <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-instagram"></i></a>
+                            <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        let map = null;
+        let marker = null;
+
+        document.getElementById('detectIPBtn').addEventListener('click', function() {
+            const btn = this;
+            const loading = document.getElementById('loading');
+            const ipInfo = document.getElementById('ipInfo');
+
+            btn.disabled = true;
+            loading.style.display = 'block';
+            ipInfo.style.display = 'none';
+
+            fetch('https://ipapi.co/json/')
+                .then(response => {
+                    if (!response.ok) throw new Error('Error en la respuesta');
+                    return response.json();
+                })
+                .then(data => {
+                    // Actualizar datos principales
+                    document.getElementById('ipAddress').textContent = data.ip;
+                    document.getElementById('country').textContent = `${data.country_name} (${data.country_code})`;
+                    document.getElementById('cityRegion').textContent = `${data.city}, ${data.region}`;
+                    document.getElementById('postal').textContent = data.postal || 'N/A';
+                    document.getElementById('isp').textContent = data.org || 'No identificado';
+                    document.getElementById('org').textContent = data.org || 'N/A';
+                    document.getElementById('timezone').textContent = data.timezone;
+                    document.getElementById('latitude').textContent = data.latitude;
+                    document.getElementById('longitude').textContent = data.longitude;
+                    document.getElementById('ipType').textContent = data.version;
+                    document.getElementById('security').textContent = window.location.protocol === 'https:' ? 'HTTPS' : 'HTTP';
+
+                    // Inicializar el mapa
+                    if (map) map.remove();
+                    
+                    map = L.map('map').setView([data.latitude, data.longitude], 10);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap contributors'
+                    }).addTo(map);
+
+                    if (marker) marker.remove();
+                    marker = L.marker([data.latitude, data.longitude])
+                        .addTo(map)
+                        .bindPopup(`
+                            <b>${data.city}</b><br>
+                            ${data.region}<br>
+                            ${data.country_name}
+                        `)
+                        .openPopup();
+
+                    // Ajustar vista después de que el mapa se carga
+                    setTimeout(() => {
+                        map.invalidateSize();
+                        map.setView([data.latitude, data.longitude], 10);
+                    }, 100);
+
+                    // Mostrar resultados
+                    loading.style.display = 'none';
+                    ipInfo.style.display = 'block';
+                    btn.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loading.innerHTML = `
+                        <div class="alert alert-danger mt-3">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            Error al obtener los datos. Por favor intenta nuevamente.
+                        </div>
+                    `;
+                    btn.disabled = false;
+                });
+        });
+
+        new WOW().init();
+    </script>
+</body>
+</html>

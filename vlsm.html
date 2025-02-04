@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>Rewes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+    <!-- Estilos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .input-card {
+            background: #f8f9fa;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .host-input-group {
+            border-left: 3px solid #4CAF50;
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+        .result-table th {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .error-input {
+            border: 2px solid #dc3545 !important;
+        }
+        #networkInfo .alert { padding: 1rem; }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="container-fluid header position-relative overflow-hidden p-0">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-light px-4 px-lg-5 py-3 py-lg-0">
+            <a href="index.html" class="navbar-brand p-0">
+                <h1 class="display-6 text-primary m-0"><i class="fas fa-network-wired me-3"></i>Rewes</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="index.html" class="nav-item nav-link active">Inicio</a>
+                    <a href="about.html" class="nav-item nav-link">Conceptos</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Recursos</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="feature.html" class="dropdown-item">Guias</a>
+                            <a href="vlsm.html" class="dropdown-item">Calculadora VLSM IPv4</a>
+                            <a href="verip.html" class="dropdown-item">Conocer mi Ip</a>
+                        </div>
+                    </div>
+                    <a href="service.html" class="nav-item nav-link">Nosotros</a>
+                </div>
+            </div>
+        </nav>
+
+    <!-- Contenido principal -->
+    <div class="container-fluid overflow-hidden py-5" style="margin-top: 6rem;">
+        <div class="container py-5">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+                <h4 class="mb-1 text-primary">Herramientas de Red</h4>
+                <h1 class="display-5 mb-4">Calculadora VLSM</h1>
+
+                <div class="card shadow-lg wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="card-body p-4 p-lg-5">
+                        <!-- Inputs -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4">
+                                <div class="input-card">
+                                    <label class="form-label text-primary fw-bold">Dirección IP</label>
+                                    <input type="text" class="form-control" id="ip" placeholder="Ej: 192.168.1.0">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="input-card">
+                                    <label class="form-label text-primary fw-bold">Máscara</label>
+                                    <input type="text" class="form-control" id="mask" placeholder="/24 o 255.255.255.0">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="input-card">
+                                    <label class="form-label text-primary fw-bold">Subredes</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="subnetCount" min="1">
+                                        <button class="btn btn-primary" onclick="crearEntradasHosts()">
+                                            Generar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Información de red -->
+                        <div id="networkInfo" class="row g-4 mb-4" style="display: none;">
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <h6 class="text-primary mb-3">Rango de la Red Principal</h6>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <small>Red: <span id="networkAddress" class="fw-bold"></span></small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <small>Máscara: <span id="networkMask" class="fw-bold"></span></small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <small>Direcciones: <span id="totalAddresses" class="fw-bold"></span></small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <small>Rango Utilizable: <span id="usableRange" class="fw-bold"></span></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Campos para hosts -->
+                        <div id="hostInputs" class="row g-4"></div>
+
+                        <!-- Botón de cálculo -->
+                        <div class="text-center mt-4">
+                            <button onclick="calcular()" class="btn btn-primary btn-lg rounded-pill px-5 py-3">
+                                <i class="fas fa-calculator me-2"></i>Calcular
+                            </button>
+                        </div>
+
+                        <!-- Resultados -->
+                        <div id="results" class="mt-5"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts con validaciones -->
+    <script>
+        // Funciones de validación
+        function validarIP(ip) {
+            const octetos = ip.split('.');
+            if (octetos.length !== 4) return false;
+            for (let octeto of octetos) {
+                if (!/^\d+$/.test(octeto)) return false;
+                const num = parseInt(octeto, 10);
+                if (num < 0 || num > 255) return false;
+                if (num.toString() !== octeto) return false;
+            }
+            return true;
+        }
+
+        function validarMascara(mascara) {
+            if (mascara.startsWith('/')) {
+                const cidr = parseInt(mascara.substring(1));
+                return !isNaN(cidr) && cidr >= 0 && cidr <= 32;
+            } else {
+                const octetos = mascara.split('.');
+                if (octetos.length !== 4) return false;
+                let binario = '';
+                for (let octeto of octetos) {
+                    const num = parseInt(octeto, 10);
+                    if (isNaN(num) || num < 0 || num > 255) return false;
+                    binario += num.toString(2).padStart(8, '0');
+                }
+                let encontroCero = false;
+                for (let bit of binario) {
+                    if (encontroCero && bit === '1') return false;
+                    if (bit === '0') encontroCero = true;
+                }
+                return true;
+            }
+        }
+
+        // Funciones base
+        function ipAEntero(ip) {
+            return ip.split('.').reduce((acc, octeto, idx) => acc | (parseInt(octeto) << (24 - idx * 8)), 0) >>> 0;
+        }
+
+        function enteroAIp(entero) {
+            return [
+                (entero >>> 24) & 0xFF,
+                (entero >>> 16) & 0xFF,
+                (entero >>> 8) & 0xFF,
+                entero & 0xFF
+            ].join('.');
+        }
+
+        function mascaraACidr(mascara) {
+            if (mascara.startsWith('/')) return parseInt(mascara.substring(1));
+            return ipAEntero(mascara).toString(2).split('1').length - 1;
+        }
+
+        function cidrAMascara(cidr) {
+            return enteroAIp((0xFFFFFFFF << (32 - cidr)) >>> 0);
+        }
+
+        // Actualizar información de red
+        function updateNetworkInfo() {
+            const ip = document.getElementById('ip').value;
+            const mask = document.getElementById('mask').value;
+            const networkInfoDiv = document.getElementById('networkInfo');
+
+            if (!validarIP(ip) || !validarMascara(mask)) {
+                networkInfoDiv.style.display = 'none';
+                return;
+            }
+
+            const cidr = mascaraACidr(mask);
+            const ipEntero = ipAEntero(ip);
+            const mascaraEntero = (0xFFFFFFFF << (32 - cidr)) >>> 0;
+            const redInicial = ipEntero & mascaraEntero;
+            const direccionesDisponibles = Math.pow(2, 32 - cidr);
+            const broadcastInicial = redInicial + direccionesDisponibles - 1;
+
+            document.getElementById('networkAddress').textContent = enteroAIp(redInicial);
+            document.getElementById('networkMask').textContent = `/${cidr} (${cidrAMascara(cidr)})`;
+            document.getElementById('totalAddresses').textContent = direccionesDisponibles;
+            document.getElementById('usableRange').textContent = 
+                `${enteroAIp(redInicial + 1)} - ${enteroAIp(broadcastInicial - 1)}`;
+
+            networkInfoDiv.style.display = 'block';
+        }
+
+        // Event listeners para actualización en tiempo real
+        document.getElementById('ip').addEventListener('input', updateNetworkInfo);
+        document.getElementById('mask').addEventListener('input', updateNetworkInfo);
+
+        // Generación de campos de hosts
+        function crearEntradasHosts() {
+            const cantidadInput = document.getElementById('subnetCount').value;
+            const cantidad = parseInt(cantidadInput);
+            
+            if (isNaN(cantidad) || cantidad < 1) {
+                alert('El número de subredes debe ser un entero positivo');
+                document.getElementById('subnetCount').classList.add('error-input');
+                return;
+            }
+            
+            document.getElementById('subnetCount').classList.remove('error-input');
+            const contenedor = document.getElementById('hostInputs');
+            contenedor.innerHTML = '';
+            
+            for (let i = 0; i < cantidad; i++) {
+                const letra = String.fromCharCode(65 + i);
+                const div = document.createElement('div');
+                div.className = 'col-md-4';
+                div.innerHTML = `
+                    <div class="host-input-group">
+                        <label class="form-label small text-muted">Subred ${letra}</label>
+                        <input type="number" class="form-control" id="host${i}" placeholder="Número de hosts" min="1">
+                    </div>
+                `;
+                contenedor.appendChild(div);
+            }
+        }
+
+        // Función principal de cálculo
+        function calcular() {
+            // Validar IP
+            const ip = document.getElementById('ip').value;
+            if (!validarIP(ip)) {
+                alert('Por favor ingrese una dirección IPv4 válida (Ej: 192.168.1.0)');
+                document.getElementById('ip').classList.add('error-input');
+                return;
+            }
+            document.getElementById('ip').classList.remove('error-input');
+
+            // Validar máscara
+            const mascara = document.getElementById('mask').value;
+            if (!validarMascara(mascara)) {
+                alert('Máscara no válida. Use formato CIDR (/24) o decimal (255.255.255.0)');
+                document.getElementById('mask').classList.add('error-input');
+                return;
+            }
+            document.getElementById('mask').classList.remove('error-input');
+
+            // Obtener parámetros de red
+            const cidr = mascaraACidr(mascara);
+            const ipEntero = ipAEntero(ip);
+            const mascaraEntero = (0xFFFFFFFF << (32 - cidr)) >>> 0;
+            const redInicial = ipEntero & mascaraEntero;
+            const direccionesDisponibles = Math.pow(2, 32 - cidr);
+            
+            // Validar subredes
+            const cantidadSubredes = parseInt(document.getElementById('subnetCount').value);
+            if (isNaN(cantidadSubredes) || cantidadSubredes < 1) {
+                alert('El número de subredes debe ser un entero positivo');
+                document.getElementById('subnetCount').classList.add('error-input');
+                return;
+            }
+            document.getElementById('subnetCount').classList.remove('error-input');
+
+            // Validar hosts
+            const hosts = [];
+            for (let i = 0; i < cantidadSubredes; i++) {
+                const hostInput = document.getElementById(`host${i}`);
+                if (!hostInput) {
+                    alert('Primero genere los campos de hosts con el botón "Generar"');
+                    return;
+                }
+                const hostValue = parseInt(hostInput.value);
+                if (isNaN(hostValue) || hostValue < 1) {
+                    alert(`Número de hosts inválido para la subred ${String.fromCharCode(65 + i)}`);
+                    hostInput.classList.add('error-input');
+                    return;
+                }
+                hostInput.classList.remove('error-input');
+                hosts.push(hostValue);
+            }
+
+            // Ordenar hosts
+            const subredes = hosts.map((h, i) => ({ hosts: h, letra: String.fromCharCode(65 + i) }))
+                                  .sort((a, b) => b.hosts - a.hosts);
+
+            // Calcular requerimientos
+            let totalHosts = 0;
+            let totalDirecciones = 0;
+            const resultados = [];
+            
+            for (const subred of subredes) {
+                const bitsHosts = Math.ceil(Math.log2(subred.hosts + 2));
+                const tamanoSubred = Math.pow(2, bitsHosts);
+                const mascaraSubred = 32 - bitsHosts;
+                
+                totalHosts += subred.hosts;
+                totalDirecciones += tamanoSubred;
+                
+                resultados.push({
+                    ...subred,
+                    bitsHosts,
+                    tamanoSubred,
+                    mascaraSubred,
+                    availableHosts: tamanoSubred - 2
+                });
+            }
+
+            // Validar espacio
+            if (totalDirecciones > direccionesDisponibles) {
+                alert('¡No hay suficiente espacio en la red!');
+                return;
+            }
+
+            // Calcular direcciones
+            let redActual = redInicial;
+            for (const resultado of resultados) {
+                const broadcast = redActual + resultado.tamanoSubred - 1;
+                
+                resultado.red = enteroAIp(redActual);
+                resultado.primeraIP = enteroAIp(redActual + 1);
+                resultado.ultimaIP = enteroAIp(broadcast - 1);
+                resultado.broadcast = enteroAIp(broadcast);
+                resultado.mascara = `/${resultado.mascaraSubred} (${cidrAMascara(resultado.mascaraSubred)})`;
+                
+                redActual += resultado.tamanoSubred;
+            }
+
+            // Mostrar resultados
+            const broadcastInicial = enteroAIp(redInicial + direccionesDisponibles - 1);
+            const html = `
+                <div class="card border-primary mt-4">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-project-diagram me-2"></i>Resultados</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="alert alert-info mb-0">
+                                    <h6 class="text-primary">Red Principal</h6>
+                                    <div class="small">IP: ${enteroAIp(redInicial)}</div>
+                                    <div class="small">Máscara: /${cidr}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="alert alert-success mb-0">
+                                    <h6 class="text-primary">Direcciones</h6>
+                                    <div class="small">Disponibles: ${direccionesDisponibles}</div>
+                                    <div class="small">Usadas: ${totalDirecciones}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="alert alert-warning mb-0">
+                                    <h6 class="text-primary">Broadcast</h6>
+                                    <div class="small">${broadcastInicial}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table result-table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Subred</th>
+                                        <th>Hosts Requeridos</th>
+                                        <th>Hosts Disponibles</th>
+                                        <th>Red</th>
+                                        <th>Máscara</th>
+                                        <th>Primera IP</th>
+                                        <th>Última IP</th>
+                                        <th>Broadcast</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${resultados.map(r => `
+                                        <tr>
+                                            <td class="fw-bold">${r.letra}</td>
+                                            <td>${r.hosts}</td>
+                                            <td>${r.availableHosts}</td>
+                                            <td><code>${r.red}</code></td>
+                                            <td>${r.mascara}</td>
+                                            <td>${r.primeraIP}</td>
+                                            <td>${r.ultimaIP}</td>
+                                            <td><code>${r.broadcast}</code></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('results').innerHTML = html;
+        }
+    </script>
+
+<div class="container-fluid overflow-hidden py-5" style="margin-top: 6rem;">
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">
+                        <i class="bi bi-info-circle-fill text-primary me-2"></i>¿Qué es VLSM?
+                    </h2>
+                    <p class="card-text">VLSM (Variable Length Subnet Mask) es una técnica avanzada de subnetting que permite:</p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Dividir una red en subredes de diferentes tamaños</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Mejorar la eficiencia del uso de direcciones IP</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Asignar solo la cantidad necesaria de direcciones para cada subred</li>
+                        <li class="list-group-item"><i class="bi bi-check-circle-fill text-success me-2"></i>Optimizar el espacio de direcciones disponible</li>
+                    </ul>
+                    <p class="card-text">Con VLSM, puedes adaptar el tamaño de cada subred a las necesidades específicas de tu red, lo que resulta en un uso más eficiente del espacio de direcciones IP.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">
+                        <i class="bi bi-calculator-fill text-primary me-2"></i>¿Cómo usar la Calculadora?
+                    </h2>
+                    <ol class="list-group list-group-numbered mb-3">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Introduce la dirección IP base</div>
+                                Ejemplo: 192.168.1.0
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Especifica la máscara de red</div>
+                                En formato CIDR (/24) o decimal (255.255.255.0)
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Indica el número de subredes</div>
+                                Haz clic en "Generar"
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Introduce la cantidad de hosts</div>
+                                Para cada subred generada
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">Presiona "Calcular"</div>
+                                Para ver los resultados detallados
+                            </div>
+                        </li>
+                    </ol>
+                    <p class="card-text">Sigue estos pasos para obtener un cálculo preciso de tus subredes VLSM y optimizar la distribución de direcciones IP en tu red.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- Footer Start -->
+ <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="footer-item d-flex flex-column">
+                    <h4 class="text-dark mb-4">Rewes Academy</h4>
+                    <a href="">Confia</a>
+                    <a href="">Nuestras Características</a>
+                    <a href="">Nuestro Portafolio</a>
+                    <a href="">Sobre Nosotros</a>
+                    <a href="">Nuestro Blog y Noticias</a>
+                    <a href="">Contáctanos</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="footer-item d-flex flex-column">
+                    <h4 class="mb-4 text-dark">Enlaces Rápidos</h4>
+                    <a href="">Calculadora VLSM</a>
+                    <a href="">Guías de Redes</a>
+                    <a href="">Recursos Avanzados</a>
+                    <a href="">Foro de Discusión</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="footer-item d-flex flex-column">
+                    <h4 class="mb-4 text-dark">Servicios</h4>
+                    <a href="">Todos los Servicios</a>
+                    <a href="">Consultoría de Redes</a>
+                    <a href="">Diseño de Infraestructura</a>
+                    <a href="">Seguridad de Redes</a>
+                    <a href="">Optimización de Rendimiento</a>
+                    <a href="">Soporte Técnico</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-xl-3">
+                <div class="footer-item d-flex flex-column">
+                    <h4 class="mb-4 text-dark">Información de contacto</h4>
+                    <a href=""><i class="fa fa-map-marker-alt me-2"></i> Táchira, San Cristobal</a>
+                    <a href=""><i class="fas fa-envelope me-2"></i> <span class="__cf_email__" data-cfemail="3d79545c535c4d515c44584f7d5148535c4f54135e5250">Dianaplayer@lunari.com</span></a>
+                    <a href=""><i class="fas fa-phone me-2"></i> +58412-0672337</a>
+                    <a href="" class="mb-3"><i class="fas fa-print me-2"></i> +58414-0672337 </a>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-share fa-2x text-secondary me-2"></i>
+                        <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-instagram"></i></a>
+                        <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
+
+    <!-- Dependencias -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+</body>
+</html>

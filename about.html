@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Rewes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid header position-relative overflow-hidden p-0">
+        <nav class="navbar navbar-expand-lg fixed-top navbar-light px-4 px-lg-5 py-3 py-lg-0">
+            <a href="index.html" class="navbar-brand p-0">
+                <h1 class="display-6 text-primary m-0"><i class="fas fa-network-wired me-3"></i>Rewes</h1>
+                <!-- <img src="img/logo.png" alt="Logo"> -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="index.html" class="nav-item nav-link active">Inicio</a>
+                    <a href="about.html" class="nav-item nav-link">Conceptos</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Recursos</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="feature.html" class="dropdown-item">Guias</a>
+                            <a href="vlsm.html" class="dropdown-item">Calculadora VLSM IPv4</a>
+                            <a href="verip.html" class="dropdown-item">Conocer mi Ip</a>
+                        </div>
+                    </div>
+                    <a href="service.html" class="nav-item nav-link">Nosotros</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Conceptos Start -->
+        <div class="container-fluid py-5" id="conceptos">
+            <div class="container py-5">
+                <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+                    <h4 class="mb-1 text-primary">Conceptos Básicos</h4>
+                    <h1 class="display-5 mb-4">¿Qué son las Redes?</h1>
+                    <p class="mb-0 text-justify">Las redes de computadoras son sistemas que permiten la comunicación y el intercambio de datos entre dispositivos. Estas redes pueden variar en tamaño, alcance y complejidad, y son fundamentales para el funcionamiento de la sociedad moderna.</p>
+                </div>
+                <div class="row g-5">
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <h3 class="mb-4 text-center">Tipos</h3>
+                        <p class="text-justify">Las redes se pueden clasificar de varias maneras, dependiendo de su alcance, topología y tecnología de transmisión. A continuación, se presentan algunas de las clasificaciones más comunes:</p>
+                        <ul class="list-unstyled">
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Por Alcance:</strong> LAN (Local Area Network), WAN (Wide Area Network), MAN (Metropolitan Area Network), PAN (Personal Area Network).
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Por Topología:</strong> Estrella, Anillo, Malla, Bus, Árbol, Híbrida.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Por Tecnología de Transmisión:</strong> Cableada (Ethernet, DSL) e Inalámbrica (Wi-Fi, Bluetooth, Zigbee).
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Por Relación Funcional:</strong> Cliente-Servidor, Peer-to-Peer (P2P).
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- Espacio para imagen -->
+                        <div class="mt-4">
+                            <img src="img/tipos.png" class="img-fluid" alt="Tipos de Redes" style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <h3 class="mb-1 text-primary text-center">Topologías</h3>
+                        <p class="text-justify">La topología de una red se refiere a la disposición de los dispositivos y la forma en que están conectados. Aquí se describen algunas de las topologías más comunes:</p>
+                        <ul class="list-unstyled">
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Estrella:</strong> Todos los dispositivos están conectados a un punto central, como un switch o un hub.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Anillo:</strong> Los dispositivos están conectados en un círculo cerrado, y cada dispositivo está conectado a otros dos.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Malla:</strong> Cada dispositivo está conectado a todos los demás dispositivos, proporcionando redundancia y alta fiabilidad. Es costosa y compleja de implementar.
+                                </div>
+                            </li>
+                           
+                        </ul>
+                        <!-- Espacio para imagen -->
+                         <br>
+                        <div class="mt-4">
+                            <img src="img/topo.png" class="img-fluid" alt="Topologías de Red" style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-5 pt-5">
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.7s">
+                        <h3 class="mb-4">Protocolos de Comunicación</h3>
+                        <p class="text-justify">Los protocolos de comunicación son conjuntos de reglas que permiten la comunicación entre dispositivos en una red. Algunos de los protocolos más importantes incluyen:</p>
+                        <ul class="list-unstyled">
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>TCP/IP:</strong> El protocolo de control de transmisión/protocolo de Internet es la base de Internet.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>HTTP/HTTPS:</strong> Protocolos para la transferencia de hipertexto, utilizados para navegar por la web.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>FTP:</strong> Protocolo de transferencia de archivos, utilizado para transferir archivos entre dispositivos.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>SMTP:</strong> Protocolo simple de transferencia de correo, utilizado para enviar correos electrónicos.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>DNS:</strong> Sistema de nombres de dominio, utilizado para traducir nombres de dominio en direcciones IP.
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- Espacio para imagen -->
+                        <div class="mt-4">
+                            <img src="img/aa.png" class="img-fluid" alt="Protocolos de Comunicación" style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.9s">
+                        <h3 class="mb-4">Seguridad</h3>
+                        <p class="text-justify">La seguridad en redes es crucial para proteger la integridad, confidencialidad y disponibilidad de los datos. Algunas medidas de seguridad importantes incluyen:</p>
+                        <ul class="list-unstyled">
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Firewalls:</strong> Actúan como barreras entre redes internas y externas.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Cifrado de Datos:</strong> Protege la información mediante la codificación de datos.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Autenticación de Usuarios:</strong> Verifica la identidad de los usuarios antes de permitirles el acceso.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Actualizaciones y Parches:</strong> Mantener el software y el hardware actualizados.
+                                </div>
+                            </li>
+                            <li class="d-flex mb-3">
+                                <i class="fas fa-check text-primary me-3"></i>
+                                <div class="flex-grow-1">
+                                    <strong>Seguridad Física:</strong> Proteger físicamente los dispositivos de red y las instalaciones.
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- Espacio para imagen -->
+                        <div class="mt-4">
+                            <img src="img/oli.png" class="img-fluid" alt="Seguridad en Redes" style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Conceptos End -->
+
+        <!-- Footer Start -->
+        <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <h4 class="text-dark mb-4">Rewes Academy</h4>
+                            <a href="">Confia</a>
+                            <a href="">Nuestras Características</a>
+                            <a href="">Nuestro Portafolio</a>
+                            <a href="">Sobre Nosotros</a>
+                            <a href="">Nuestro Blog y Noticias</a>
+                            <a href="">Contáctanos</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <h4 class="mb-4 text-dark">Enlaces Rápidos</h4>
+                            <a href="">Calculadora VLSM</a>
+                            <a href="">Guías de Redes</a>
+                            <a href="">Recursos Avanzados</a>
+                            <a href="">Foro de Discusión</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <h4 class="mb-4 text-dark">Servicios</h4>
+                            <a href="">Todos los Servicios</a>
+                            <a href="">Consultoría de Redes</a>
+                            <a href="">Diseño de Infraestructura</a>
+                            <a href="">Seguridad de Redes</a>
+                            <a href="">Optimización de Rendimiento</a>
+                            <a href="">Soporte Técnico</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="footer-item d-flex flex-column">
+                            <h4 class="mb-4 text-dark">Información de contacto</h4>
+                            <a href=""><i class="fa fa-map-marker-alt me-2"></i> Táchira, San Cristobal</a>
+                            <a href=""><i class="fas fa-envelope me-2"></i> <span class="__cf_email__" data-cfemail="3d79545c535c4d515c44584f7d5148535c4f54135e5250">Dianaplayer@lunari.com</span></a>
+                            <a href=""><i class="fas fa-phone me-2"></i> +58412-0672337</a>
+                            <a href="" class="mb-3"><i class="fas fa-print me-2"></i> +58414-0672337 </a>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-share fa-2x text-secondary me-2"></i>
+                                <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn-square btn btn-primary rounded-circle mx-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+    </div>
+    <!-- Navbar & Hero End -->
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
